@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', 'PagesController@root')->name('root')->middleware('verified');
 
 Auth::routes(['verify' => true]);
+
+// auth 中间件代表需要登录，verified中间件代表需要经过邮箱验证
+Route::group([
+    'middleware' => ['auth', 'verified'],
+    'namespace' => 'User'
+], function() {
+    Route::get('addresses', 'AddressesController@index')->name('addresses.index');
+});
