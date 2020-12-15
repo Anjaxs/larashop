@@ -24,4 +24,6 @@ Route::group([
     'namespace' => 'User'
 ], function() {
     Route::get('addresses', 'AddressesController@index')->name('addresses.index');
+    Route::get('addresses/create', 'AddressesController@create')->name('addresses.create');
+    Route::post('addresses', 'AddressesController@store')->name('addresses.store');
 });

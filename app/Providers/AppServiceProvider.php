@@ -25,4 +25,13 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
+    /**
+     * All of the container singletons that should be registered.
+     *
+     * @var array
+     */
+    public $singletons = [
+        \App\Services\User\Address\CreateAddress::class => \App\Services\User\Address\CreateAddress::class,
+    ];
 }
