@@ -25,6 +25,6 @@ class Phone implements Rule
      */
     public function message()
     {
-        return ':attribute 不合法';
+        return '手机号格式不对';
     }
 }
