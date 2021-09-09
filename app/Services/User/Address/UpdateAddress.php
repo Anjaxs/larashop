@@ -13,7 +13,6 @@ class UpdateAddress extends BaseService
     {
         return [
             'address_id'    => 'required|integer',
-            'user_id'       => 'required|integer',
             'province'      => 'required|string',
             'city'          => 'required|string',
             'district'      => 'required|string',
@@ -44,10 +43,9 @@ class UpdateAddress extends BaseService
     {
         $this->validate($data);
 
-        $address = Address::where('user_id', $data['user_id'])
-            ->findOrFail($data['address_id']);
-
-        $address->update(Arr::except($data, ['user_id', 'address_id']));
+        Address::where('id', $data['address_id'])->update(
+            Arr::except($data, ['address_id'])
+        );
 
         return true;
     }

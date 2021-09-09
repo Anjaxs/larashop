@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Arr;
 
 abstract class BaseService
 {
@@ -43,10 +44,12 @@ abstract class BaseService
      * @throws \Illuminate\Validation\ValidationException
      * @return bool
      */
-    public function validate(array $data): bool
+    public function validate(array &$data): bool
     {
         Validator::make($data, $this->rules(), $this->messages(), $this->attributes())
             ->validate();
+
+        $data = Arr::only($data, array_keys($this->rules()));
 
         return true;
     }
@@ -59,4 +62,14 @@ abstract class BaseService
      * @return mixed
      */
     abstract public function execute(array $data);
+
+    protected function nullOrEmptyStr($target, $key, $default = '')
+    {
+        return data_get($target, $key, $default) ?: $default;
+    }
+
+    protected function nullOrZero($target, $key, $default = 0)
+    {
+        return data_get($target, $key, $default) ?: $default;
+    }
 }

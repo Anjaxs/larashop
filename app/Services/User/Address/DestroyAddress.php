@@ -10,8 +10,7 @@ class DestroyAddress extends BaseService
     public function rules()
     {
         return [
-            'address_id'    => 'required|integer',
-            'user_id'       => 'required|integer',
+            'address_id' => 'required|integer',
         ];
     }
 
@@ -22,10 +21,7 @@ class DestroyAddress extends BaseService
     {
         $this->validate($data);
 
-        $address = Address::where('user_id', $data['user_id'])
-            ->findOrFail($data['address_id']);
-
-        $address->delete();
+        Address::where('id', $data['address_id'])->delete();
 
         return true;
     }

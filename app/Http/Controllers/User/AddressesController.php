@@ -36,29 +36,27 @@ class AddressesController extends Controller
 
     public function edit(Address $address)
     {
-        return view('addresses.create_and_edit', [
-            'address' => $address
-        ]);
+        $this->authorize('own', $address);
+
+        return view('addresses.create_and_edit', ['address' => $address]);
     }
 
-    public function update($id, Request $request)
+    public function update(Address $address, Request $request)
     {
-        $data = [
-            'user_id' => auth()->id(),
-            'address_id' => $id
-        ] + $request->all();
+        $this->authorize('own', $address);
+        
+        $data = ['address_id' => $address->id] + $request->all();
 
         app(UpdateAddress::class)->execute($data);
 
         return redirect()->route('addresses.index');
     }
 
-    public function destroy($id)
+    public function destroy(Address $address)
     {
-        $data = [
-            'user_id' => auth()->id(),
-            'address_id' => $id
-        ];
+        $this->authorize('own', $address);
+
+        $data = ['address_id' => $address->id];
 
         app(DestroyAddress::class)->execute($data);
 

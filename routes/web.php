@@ -27,6 +27,6 @@ Route::group([
     Route::get('addresses/create', 'AddressesController@create')->name('addresses.create');
     Route::post('addresses', 'AddressesController@store')->name('addresses.store');
     Route::get('addresses/{address}', 'AddressesController@edit')->name('addresses.edit');
-    Route::put('addresses/{id}', 'AddressesController@update')->name('addresses.update');
-    Route::delete('addresses/{id}', 'AddressesController@destroy')->name('addresses.destroy');
+    Route::put('addresses/{address}', 'AddressesController@update')->name('addresses.update');
+    Route::delete('addresses/{address}', 'AddressesController@destroy')->name('addresses.destroy');
 });

@@ -28,7 +28,7 @@
         <addresses-create-and-edit inline-template>
           <form class="form-horizontal" role="form" method="post"
             @if($address->id)
-            action="{{ route('addresses.update', ['id' => $address->id]) }}">
+            action="{{ route('addresses.update', ['address' => $address->id]) }}">
             {{ method_field('PUT') }}
             @else
             action="{{ route('addresses.store') }}">
