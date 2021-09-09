@@ -15,7 +15,7 @@ class Phone implements Rule
      */
     public function passes($attribute, $value)
     {
-        return preg_match('/^1[345789]\d{9}$/', $value);
+        return preg_match('/^1[3456789]\d{9}$/', $value);
     }
 
     /**
