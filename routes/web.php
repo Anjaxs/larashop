@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', 'PagesController@root')->name('root')->middleware('verified');
+// Route::get('/', 'PagesController@root')->name('root')->middleware('verified');
+
+Route::redirect('/', '/products')->name('root');
+Route::get('products', 'ProductsController@index')->name('products.index');
 
 Auth::routes(['verify' => true]);
 
