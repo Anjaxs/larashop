@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Auth;
 
 Route::redirect('/', '/products')->name('root');
 Route::get('products', 'ProductsController@index')->name('products.index');
-Route::get('products/{product}', 'ProductsController@show')->name('products.show');
 
 Auth::routes(['verify' => true]);
 
@@ -26,10 +25,13 @@ Auth::routes(['verify' => true]);
 Route::group([
     'middleware' => ['auth', 'verified']
 ], function() {
+    // 商品收藏
+    Route::get('products/favorites', 'ProductsController@favorites')->name('products.favorites');
     Route::post('products/{product}/favorite', 'ProductsController@favor')->name('products.favor');
     Route::delete('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
 
-    // 用户模块
+    /** 用户模块 */
+    // 收货地址
     Route::group(['namespace' => 'User'], function () {
         Route::get('addresses', 'AddressesController@index')->name('addresses.index');
         Route::get('addresses/create', 'AddressesController@create')->name('addresses.create');
@@ -39,3 +41,6 @@ Route::group([
         Route::delete('addresses/{address}', 'AddressesController@destroy')->name('addresses.destroy');
     });
 });
+
+// 跟 products/favorites 冲突, 因此调到最后
+Route::get('products/{product}', 'ProductsController@show')->name('products.show');
