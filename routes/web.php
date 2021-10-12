@@ -24,13 +24,18 @@ Auth::routes(['verify' => true]);
 
 // auth 中间件代表需要登录，verified中间件代表需要经过邮箱验证
 Route::group([
-    'middleware' => ['auth', 'verified'],
-    'namespace' => 'User'
+    'middleware' => ['auth', 'verified']
 ], function() {
-    Route::get('addresses', 'AddressesController@index')->name('addresses.index');
-    Route::get('addresses/create', 'AddressesController@create')->name('addresses.create');
-    Route::post('addresses', 'AddressesController@store')->name('addresses.store');
-    Route::get('addresses/{address}', 'AddressesController@edit')->name('addresses.edit');
-    Route::put('addresses/{address}', 'AddressesController@update')->name('addresses.update');
-    Route::delete('addresses/{address}', 'AddressesController@destroy')->name('addresses.destroy');
+    Route::post('products/{product}/favorite', 'ProductsController@favor')->name('products.favor');
+    Route::delete('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
+
+    // 用户模块
+    Route::group(['namespace' => 'User'], function () {
+        Route::get('addresses', 'AddressesController@index')->name('addresses.index');
+        Route::get('addresses/create', 'AddressesController@create')->name('addresses.create');
+        Route::post('addresses', 'AddressesController@store')->name('addresses.store');
+        Route::get('addresses/{address}', 'AddressesController@edit')->name('addresses.edit');
+        Route::put('addresses/{address}', 'AddressesController@update')->name('addresses.update');
+        Route::delete('addresses/{address}', 'AddressesController@destroy')->name('addresses.destroy');
+    });
 });
