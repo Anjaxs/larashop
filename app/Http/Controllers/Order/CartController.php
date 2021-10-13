@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product\ProductSku;
 use App\Services\Order\Cart\AddCart;
 use Illuminate\Http\Request;
 
