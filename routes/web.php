@@ -43,7 +43,9 @@ Route::group([
 
     /** 订单模块 */
     Route::group(['namespace' => 'Order'], function () {
+        Route::get('cart', 'CartController@index')->name('cart.index');
         Route::post('cart', 'CartController@add')->name('cart.add');
+        Route::delete('cart/{sku}', 'CartController@remove')->name('cart.remove');
     });
 });
 
