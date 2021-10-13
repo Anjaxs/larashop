@@ -40,6 +40,11 @@ Route::group([
         Route::put('addresses/{address}', 'AddressesController@update')->name('addresses.update');
         Route::delete('addresses/{address}', 'AddressesController@destroy')->name('addresses.destroy');
     });
+
+    /** 订单模块 */
+    Route::group(['namespace' => 'Order'], function () {
+        Route::post('cart', 'CartController@add')->name('cart.add');
+    });
 });
 
 // 跟 products/favorites 冲突, 因此调到最后

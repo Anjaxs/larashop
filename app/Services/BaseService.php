@@ -8,6 +8,12 @@ use Illuminate\Support\Arr;
 abstract class BaseService
 {
     /**
+     * 需要验证的参数
+     * @var array
+     */
+    protected $input = [];
+
+    /**
      * 校验参数规则
      *
      * @return array
@@ -46,10 +52,12 @@ abstract class BaseService
      */
     public function validate(array &$data): bool
     {
-        Validator::make($data, $this->rules(), $this->messages(), $this->attributes())
+        $this->input = $data;
+
+        Validator::make($this->input, $this->rules(), $this->messages(), $this->attributes())
             ->validate();
 
-        $data = Arr::only($data, array_keys($this->rules()));
+        $data = Arr::only($this->input, array_keys($this->rules()));
 
         return true;
     }

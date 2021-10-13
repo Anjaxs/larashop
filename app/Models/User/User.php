@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Order\CartItem;
 use App\Models\Product\Product;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,6 +43,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
     }
 
     public function favoriteProducts()
