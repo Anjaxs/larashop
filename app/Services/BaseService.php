@@ -71,12 +71,7 @@ abstract class BaseService
      */
     abstract public function execute(array $data);
 
-    protected function nullOrEmptyStr($target, $key, $default = '')
-    {
-        return data_get($target, $key, $default) ?: $default;
-    }
-
-    protected function nullOrZero($target, $key, $default = 0)
+    protected function dataGet($target, $key, $default = '')
     {
         return data_get($target, $key, $default) ?: $default;
     }

@@ -4,6 +4,8 @@ namespace App\Services\Order\Cart;
 
 use App\Models\Order\CartItem;
 use App\Models\Product\ProductSku;
+use App\Models\User\User;
+use App\Rules\LoginUser;
 use App\Services\BaseService;
 
 class AddCart extends BaseService
@@ -29,6 +31,7 @@ class AddCart extends BaseService
                 },
             ],
             'amount' => ['required', 'integer', 'min:1'],
+            'user' => ['required', new LoginUser],
         ];
     }
 
@@ -47,7 +50,7 @@ class AddCart extends BaseService
     }
 
     /**
-     * 添加用户收货地址
+     * 给用户添加商品到购物车记录
      */
     public function execute(array $data)
     {

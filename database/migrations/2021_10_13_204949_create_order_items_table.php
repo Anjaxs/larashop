@@ -26,7 +26,6 @@ class CreateOrderItemsTable extends Migration
             $table->unsignedTinyInteger('rating')->default(0)->comment('评分');
             $table->string('review', 500)->default(0)->comment('评价');
             $table->timestamp('reviewed_at')->default(config('app.null_time'))->comment('评价时间');
-            $table->timestamps();
         });
     }
 
