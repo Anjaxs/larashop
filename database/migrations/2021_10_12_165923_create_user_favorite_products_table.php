@@ -16,7 +16,7 @@ class CreateUserFavoriteProductsTable extends Migration
         Schema::create('user_favorite_products', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
-            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');   // 互联网项目一般是使用外键约束
+            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');   // 互联网项目一般不使用外键约束
             $table->unsignedInteger('product_id');
             // $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
