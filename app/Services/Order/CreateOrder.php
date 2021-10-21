@@ -3,6 +3,7 @@
 namespace App\Services\Order;
 
 use App\Exceptions\InvalidRequestException;
+use App\Jobs\CloseOrder;
 use App\Models\Order\Order;
 use App\Models\Product\ProductSku;
 use App\Services\BaseService;
@@ -109,6 +110,7 @@ class CreateOrder extends BaseService
 
             return $order;
         });
+        dispatch(new CloseOrder($order, config('app.order_ttl')));
 
         return $order;
     }

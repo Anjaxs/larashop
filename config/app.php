@@ -4,6 +4,8 @@ return [
 
     'null_time' => '1970-01-01 08:00:01',   // 数据库时间字段的默认值
 
+    'order_ttl' => 30,  // 延时关闭订单时间
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -175,6 +177,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
