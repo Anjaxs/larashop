@@ -43,8 +43,8 @@ class CreateAddress extends BaseService
     {
         $this->validate($data);
 
-        Address::create($data);
+        $address = Address::create($data);
 
-        return true;
+        return $address;
     }
 }

@@ -9,6 +9,8 @@ use App\Models\Product\ProductSku;
 use App\Services\BaseService;
 use App\Models\User\Address;
 use App\Rules\LoginUser;
+use App\Services\Order\Cart\RemoveCart;
+use App\Services\User\Address\CreateAddress;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -68,8 +70,7 @@ class CreateOrder extends BaseService
             // 更新此地址的最后使用时间
             $address->update(['last_used_at' => Carbon::now()]);
 
-            $orderAddress = $address->replicate()->fill(['user_id' => 0]);
-            $orderAddress->save();
+            $orderAddress = app(CreateAddress::class)->execute(array_merge($address->toArray(), ['user_id' => 0]));
 
             // 创建一个订单
             $order = new Order([
@@ -83,20 +84,19 @@ class CreateOrder extends BaseService
             $order->save();
 
             $totalAmount = 0;
-            $items = $data['items'];
             // 遍历用户提交的 SKU
-            foreach ($items as $data) {
-                $sku  = ProductSku::find($data['sku_id']);
+            foreach ($data['items'] as $item) {
+                $sku  = ProductSku::find($item['sku_id']);
                 // 创建一个 OrderItem 并直接与当前订单关联
-                $item = $order->items()->make([
-                    'amount' => $data['amount'],
+                $orderItem = $order->items()->make([
+                    'amount' => $item['amount'],
                     'price' => $sku->price,
                 ]);
-                $item->product()->associate($sku->product_id);
-                $item->productSku()->associate($sku);
-                $item->save();
-                $totalAmount += $sku->price * $data['amount'];
-                if ($sku->decreaseStock($data['amount']) <= 0) {
+                $orderItem->product()->associate($sku->product_id);
+                $orderItem->productSku()->associate($sku);
+                $orderItem->save();
+                $totalAmount += $sku->price * $item['amount'];
+                if ($sku->decreaseStock($item['amount']) <= 0) {
                     throw new InvalidRequestException('该商品库存不足');
                 }
             }
@@ -105,8 +105,8 @@ class CreateOrder extends BaseService
             $order->update(['total_amount' => $totalAmount]);
 
             // 将下单的商品从购物车中移除
-            $skuIds = collect($items)->pluck('sku_id');
-            $user->cartItems()->whereIn('product_sku_id', $skuIds)->delete();
+            $skuIds = collect($data['items'])->pluck('sku_id')->all();
+            app(RemoveCart::class)->execute(compact('skuIds', 'user'));
 
             return $order;
         });

@@ -86,6 +86,14 @@ class Order extends Model
         });
     }
 
+    public function getPaidAtAttribute($value)
+    {
+        if ($value == config('app.null_time')) {
+            return '';
+        }
+        return $value;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -56,7 +56,7 @@ class AddCart extends BaseService
     {
         $this->validate($data);
 
-        $user = request()->user();
+        $user = $data['user'];
         // 从数据库中查询该商品是否已经在购物车中
         if ($cart = $user->cartItems()->where('product_sku_id', $data['sku_id'])->first()) {
             // 如果存在则直接叠加商品数量

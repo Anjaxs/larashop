@@ -5,15 +5,16 @@ namespace App\Http\Controllers\Order;
 use App\Http\Controllers\Controller;
 use App\Models\Product\ProductSku;
 use App\Services\Order\Cart\AddCart;
+use App\Services\Order\Cart\RemoveCart;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
     public function add(Request $request)
     {
-        $data = $request->all();
-        $data['user'] = $request->user();
-        app(AddCart::class)->execute($data);
+        app(AddCart::class)->execute($request->all() + [
+            'user' => $request->user(),
+        ]);
 
         return [];
     }
@@ -28,7 +29,10 @@ class CartController extends Controller
 
     public function remove(ProductSku $sku, Request $request)
     {
-        $request->user()->cartItems()->where('product_sku_id', $sku->id)->delete();
+        app(RemoveCart::class)->execute([
+            'skuIds' => $sku->id,
+            'user' => $request->user(),
+        ]);
 
         return [];
     }
