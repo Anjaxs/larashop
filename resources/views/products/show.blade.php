@@ -126,6 +126,10 @@
             // http 状态码为 401 代表用户未登陆
             swal('请先登录', '', 'error');
 
+          } else if (error.response.status === 403) {
+
+            swal(error.response.data.message, '', 'error');
+
           } else if (error.response.status === 422) {
 
             // http 状态码为 422 代表用户输入校验失败
