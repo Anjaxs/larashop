@@ -51,7 +51,13 @@ Route::group([
         Route::get('orders', 'OrdersController@index')->name('orders.index');
         Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
     });
+
+    /** 支付模块 */
+    Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
+    Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
 });
+
+Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
 
 // 跟 products/favorites 冲突, 因此调到最后
 Route::get('products/{product}', 'ProductsController@show')->name('products.show');
