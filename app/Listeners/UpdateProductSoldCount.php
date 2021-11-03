@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\OrderPaid;
+use App\Models\Order\Order;
 use App\Models\Order\OrderItem;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -38,9 +39,8 @@ class UpdateProductSoldCount implements ShouldQueue
             // 计算对应商品的销量
             $soldCount = OrderItem::query()
                 ->where('product_id', $product->id)
-                ->whereHas('order', function ($query) {
-                    $query->whereNotNull('paid_at');  // 关联的订单状态是已支付
-                })->sum('amount');
+                ->whereIn('order_id', Order::where('paid_at', '!=', config('app.null_time'))->select('id'))
+                ->sum('amount');
             // 更新商品销量
             $product->update([
                 'sold_count' => $soldCount,
