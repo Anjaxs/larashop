@@ -28,7 +28,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 0,
-                    "order" => 4,
+                    "order" => 5,
                     "title" => "系统管理",
                     "icon" => "fa-tasks",
                     "uri" => NULL,
@@ -36,7 +36,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 5,
+                    "order" => 6,
                     "title" => "管理员",
                     "icon" => "fa-users",
                     "uri" => "auth/users",
@@ -44,7 +44,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 6,
+                    "order" => 7,
                     "title" => "角色",
                     "icon" => "fa-user",
                     "uri" => "auth/roles",
@@ -52,7 +52,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 7,
+                    "order" => 8,
                     "title" => "权限",
                     "icon" => "fa-ban",
                     "uri" => "auth/permissions",
@@ -60,7 +60,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 8,
+                    "order" => 9,
                     "title" => "菜单",
                     "icon" => "fa-bars",
                     "uri" => "auth/menu",
@@ -68,7 +68,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 10,
+                    "order" => 11,
                     "title" => "操作日志",
                     "icon" => "fa-history",
                     "uri" => "auth/logs",
@@ -92,11 +92,19 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 9,
+                    "order" => 10,
                     "title" => "队列任务",
                     "icon" => "fa-server",
                     "uri" => "horizon",
                     "permission" => "horizon"
+                ],
+                [
+                    "parent_id" => 0,
+                    "order" => 4,
+                    "title" => "订单管理",
+                    "icon" => "fa-rmb",
+                    "uri" => "/orders",
+                    "permission" => NULL
                 ]
             ]
         );
@@ -105,25 +113,25 @@ class AdminTablesSeeder extends Seeder
         \Encore\Admin\Auth\Database\Permission::insert(
             [
                 [
-                    "name" => "All permission",
+                    "name" => "所有权限",
                     "slug" => "*",
                     "http_method" => "",
                     "http_path" => "*"
                 ],
                 [
-                    "name" => "Dashboard",
+                    "name" => "仪表盘",
                     "slug" => "dashboard",
                     "http_method" => "GET",
                     "http_path" => "/"
                 ],
                 [
-                    "name" => "Login",
+                    "name" => "登录",
                     "slug" => "auth.login",
                     "http_method" => "",
                     "http_path" => "/auth/login\r\n/auth/logout"
                 ],
                 [
-                    "name" => "User setting",
+                    "name" => "用户设置",
                     "slug" => "auth.setting",
                     "http_method" => "GET,PUT",
                     "http_path" => "/auth/setting"
