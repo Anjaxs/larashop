@@ -4,6 +4,7 @@ namespace App\Models\Order;
 
 use App\Models\User\Address;
 use App\Models\User\User;
+use Carbon\Carbon;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -91,7 +92,7 @@ class Order extends Model
         if ($value == config('app.null_time')) {
             return '';
         }
-        return $value;
+        return Carbon::parse($value);
     }
 
     public function user()
