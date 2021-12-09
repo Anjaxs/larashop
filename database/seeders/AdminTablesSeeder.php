@@ -68,7 +68,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 11,
+                    "order" => 10,
                     "title" => "操作日志",
                     "icon" => "fa-history",
                     "uri" => "auth/logs",
@@ -92,7 +92,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 10,
+                    "order" => 11,
                     "title" => "队列任务",
                     "icon" => "fa-server",
                     "uri" => "horizon",
