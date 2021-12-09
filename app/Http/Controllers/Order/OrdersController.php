@@ -6,6 +6,7 @@ use App\Exceptions\InvalidRequestException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order\Order;
+use App\Services\Order\CreateReview;
 
 class OrdersController extends Controller
 {
@@ -51,5 +52,30 @@ class OrdersController extends Controller
         $order->update(['ship_status' => Order::SHIP_STATUS_RECEIVED]);
 
         return $order;
+    }
+
+    public function review(Order $order)
+    {
+        // 校验权限
+        $this->authorize('own', $order);
+        // 判断是否已经支付
+        if ($order->paid_at == config('app.null_time')) {
+            throw new InvalidRequestException('该订单未支付，不可评价');
+        }
+        // 使用 load 方法加载关联数据，避免 N + 1 性能问题
+        return view('orders.review', ['order' => $order->load(['items.productSku', 'items.product'])]);
+    }
+
+    public function sendReview(Order $order, Request $request)
+    {
+        // 校验权限
+        $this->authorize('own', $order);
+
+        app(CreateReview::class)->execute([
+            'order_id' => $order->id,
+            'reviews' => $request->input('reviews')
+        ]);
+
+        return redirect()->back();
     }
 }
