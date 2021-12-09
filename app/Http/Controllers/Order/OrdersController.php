@@ -6,6 +6,7 @@ use App\Exceptions\InvalidRequestException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order\Order;
+use App\Services\Order\ApplyRefund;
 use App\Services\Order\CreateReview;
 
 class OrdersController extends Controller
@@ -77,5 +78,16 @@ class OrdersController extends Controller
         ]);
 
         return redirect()->back();
+    }
+
+    public function applyRefund(Order $order, Request $request)
+    {
+        // 校验订单是否属于当前用户
+        $this->authorize('own', $order);
+
+        return app(ApplyRefund::class)->execute([
+            'order_id' => $order->id,
+            'reason' => $request->input('reason'),
+        ]);
     }
 }
