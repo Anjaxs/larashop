@@ -11,6 +11,7 @@ use Encore\Admin\Show;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
 use App\Exceptions\InvalidRequestException;
+use App\Services\Order\HandleRefund;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class OrdersController extends AdminController
@@ -168,5 +169,14 @@ class OrdersController extends AdminController
 
         // 返回上一页
         return redirect()->back();
+    }
+
+    public function handleRefund(Order $order, Request $request)
+    {
+        return app(HandleRefund::class)->execute([
+            'order_id' => $order->id,
+            'agree' => $request->input('agree'),
+            'reason' => $request->input('reason'),
+        ]);
     }
 }
