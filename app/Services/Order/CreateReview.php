@@ -2,6 +2,7 @@
 
 namespace App\Services\Order;
 
+use App\Events\OrderReviewed;
 use App\Exceptions\InvalidRequestException;
 use App\Models\Order\Order;
 use App\Services\BaseService;
@@ -41,7 +42,7 @@ class CreateReview extends BaseService
         $this->validate($data);
 
         $order = Order::with('items')->find($data['order_id']);
-        if ($order->paid_at == config('app.null_time')) {
+        if (!$order->paid_at) {
             throw new InvalidRequestException('该订单未支付，不可评价');
         }
         // 判断是否已经评价
@@ -64,5 +65,7 @@ class CreateReview extends BaseService
             // 将订单标记为已评价
             $order->update(['reviewed' => true]);
         });
+
+        event(new OrderReviewed($order));
     }
 }

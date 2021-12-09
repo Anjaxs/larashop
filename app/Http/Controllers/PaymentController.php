@@ -48,7 +48,7 @@ class PaymentController extends Controller
         $data  = app('alipay')->verify();
         // 如果订单状态不是成功或者结束，则不走后续的逻辑
         // 所有交易状态：https://docs.open.alipay.com/59/103672
-        if(!in_array($data->trade_status, ['TRADE_SUCCESS', 'TRADE_FINISHED'])) {
+        if (!in_array($data->trade_status, ['TRADE_SUCCESS', 'TRADE_FINISHED'])) {
             return app('alipay')->success();
         }
 
@@ -61,7 +61,8 @@ class PaymentController extends Controller
 
 
 
-    public function payByWechat(Order $order, Request $request) {
+    public function payByWechat(Order $order, Request $request)
+    {
         // 校验权限
         $this->authorize('own', $order);
         // 校验订单状态

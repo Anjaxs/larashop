@@ -4,6 +4,8 @@ return [
 
     'null_time' => '1970-01-01 08:00:01',   // 数据库时间字段的默认值
 
+    'ngrok_url' => env('NGROK_URL'),
+
     'order_ttl' => 3600,  // 延时关闭订单时间
 
     /*

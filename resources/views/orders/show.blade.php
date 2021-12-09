@@ -51,6 +51,12 @@
           <div class="line-value">{{ \App\Models\Order\Order::$shipStatusMap[$order->ship_status] }}</div>
         </div>
         <!-- 如果有物流信息则展示 -->
+        @if($order->ship_data)
+        <div class="line">
+          <div class="line-label">物流信息：</div>
+          <div class="line-value">{{ $order->ship_data['express_company'] }} {{ $order->ship_data['express_no'] }}</div>
+        </div>
+        @endif
       </div>
       <div class="order-summary text-right">
         <div class="total-amount">

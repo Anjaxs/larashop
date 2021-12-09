@@ -12,7 +12,7 @@ class OrderPaySuccess extends BaseService
     public function rules()
     {
         return [
-            'payment_way' => 'required|string|in: wechat_pay,alipay',  // 支付方式
+            'payment_way' => 'required|string|in:wechat_pay,alipay',  // 支付方式
             'order_no'    => 'required|string',    // 订单编号
             'payment_no'  => 'required|string',    // 支付交易号
         ];
@@ -32,7 +32,7 @@ class OrderPaySuccess extends BaseService
             return 'fail';
         }
         // 订单已支付
-        if ($order->paid_at != config('app.null_time')) {
+        if ($order->paid_at) {
             return app($data['payment_way'])->success();
         }
         // 将订单标记为已支付

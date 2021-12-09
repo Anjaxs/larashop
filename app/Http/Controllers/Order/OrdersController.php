@@ -59,7 +59,7 @@ class OrdersController extends Controller
         // 校验权限
         $this->authorize('own', $order);
         // 判断是否已经支付
-        if ($order->paid_at == config('app.null_time')) {
+        if (!$order->paid_at) {
             throw new InvalidRequestException('该订单未支付，不可评价');
         }
         // 使用 load 方法加载关联数据，避免 N + 1 性能问题
