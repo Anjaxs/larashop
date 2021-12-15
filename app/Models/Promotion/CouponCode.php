@@ -3,6 +3,8 @@
 namespace App\Models\Promotion;
 
 use App\Exceptions\CouponCodeUnavailableException;
+use App\Models\Order\Order;
+use App\Models\User\User;
 use Carbon\Carbon;
 use Database\Factories\Promotion\CouponCodeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -75,7 +77,7 @@ class CouponCode extends Model
         return $code;
     }
 
-    public function checkAvailable($orderAmount = null)
+    public function checkAvailable(User $user, $orderAmount = null)
     {
         if (!$this->enabled) {
             throw new CouponCodeUnavailableException('优惠券不存在');
@@ -95,6 +97,23 @@ class CouponCode extends Model
 
         if (!is_null($orderAmount) && $orderAmount < $this->min_amount) {
             throw new CouponCodeUnavailableException('订单金额不满足该优惠券最低金额');
+        }
+
+        if (!$user) {
+            return true;
+        }
+        $used = Order::where('user_id', $user->id)
+            ->where('coupon_code_id', $this->id)
+            ->where(function($query) {
+                $query->where(function($query) {
+                    $query->where('paid_at', config('app.null_time'))->where('closed', false);
+                })->orWhere(function($query) {
+                    $query->where('paid_at', '!=', config('app.null_time'))->where('refund_status', '!=', Order::REFUND_STATUS_SUCCESS);
+                });
+            })
+            ->exists();
+        if ($used) {
+            throw new CouponCodeUnavailableException('你已经使用过这张优惠券了');
         }
     }
 

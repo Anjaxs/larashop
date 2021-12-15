@@ -15,7 +15,7 @@ class CouponCodesController extends Controller
             throw new CouponCodeUnavailableException('优惠券不存在');
         }
 
-        $record->checkAvailable();
+        $record->checkAvailable(auth()->user());
 
         return $record;
     }

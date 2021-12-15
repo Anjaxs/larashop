@@ -110,7 +110,7 @@ class CreateOrder extends BaseService
             if ($couponCode = $this->dataGet($data, 'coupon_code')) {
                 $coupon = CouponCode::where('code', $couponCode)->first();
                 // 总金额已经计算出来了，检查是否符合优惠券规则
-                $coupon->checkAvailable($totalAmount);
+                $coupon->checkAvailable($user, $totalAmount);
                 // 增加优惠券的用量，需判断返回值
                 if ($coupon->changeUsed() <= 0) {
                     throw new CouponCodeUnavailableException('该优惠券已被兑完');

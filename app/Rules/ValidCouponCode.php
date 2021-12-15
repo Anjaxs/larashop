@@ -29,7 +29,7 @@ class ValidCouponCode implements Rule
             return false;
         }
         try {
-            $record->checkAvailable();
+            $record->checkAvailable(null);
         } catch (CouponCodeUnavailableException $e) {
             $this->errmsg = $e->getMessage();
             return false;
