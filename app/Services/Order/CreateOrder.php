@@ -2,13 +2,16 @@
 
 namespace App\Services\Order;
 
+use App\Exceptions\CouponCodeUnavailableException;
 use App\Exceptions\InvalidRequestException;
 use App\Jobs\CloseOrder;
 use App\Models\Order\Order;
 use App\Models\Product\ProductSku;
+use App\Models\Promotion\CouponCode;
 use App\Services\BaseService;
 use App\Models\User\Address;
 use App\Rules\LoginUser;
+use App\Rules\ValidCouponCode;
 use App\Services\Order\Cart\RemoveCart;
 use App\Services\User\Address\CreateAddress;
 use Carbon\Carbon;
@@ -50,8 +53,9 @@ class CreateOrder extends BaseService
                 },
             ],
             'items.*.amount' => ['required', 'integer', 'min:1'],
-            'remark' => ['required', 'string', 'nullable', 'max:200'],
+            'remark' => ['nullable', 'string', 'max:200'],
             'user' => ['required', new LoginUser],
+            'coupon_code' => ['nullable', new ValidCouponCode]
         ];
     }
 
@@ -77,9 +81,8 @@ class CreateOrder extends BaseService
                 'address_id' => $orderAddress->id,
                 'remark' => $this->dataGet($data, 'remark'),
                 'total_amount' => 0,
+                'user_id' => $user->id,
             ]);
-            // 订单关联到当前用户
-            $order->user()->associate($user);
             // 写入数据库
             $order->save();
 
@@ -87,22 +90,41 @@ class CreateOrder extends BaseService
             // 遍历用户提交的 SKU
             foreach ($data['items'] as $item) {
                 $sku  = ProductSku::find($item['sku_id']);
+                if ($sku->decreaseStock($item['amount']) <= 0) {
+                    throw new InvalidRequestException('该商品库存不足');
+                }
+
                 // 创建一个 OrderItem 并直接与当前订单关联
                 $orderItem = $order->items()->make([
                     'amount' => $item['amount'],
                     'price' => $sku->price,
+                    'product_id' => $sku->product_id,
+                    'product_sku_id' => $sku->id,
                 ]);
-                $orderItem->product()->associate($sku->product_id);
-                $orderItem->productSku()->associate($sku);
                 $orderItem->save();
+
                 $totalAmount += $sku->price * $item['amount'];
-                if ($sku->decreaseStock($item['amount']) <= 0) {
-                    throw new InvalidRequestException('该商品库存不足');
+            }
+
+            $couponCodeId = 0;
+            if ($couponCode = $this->dataGet($data, 'coupon_code')) {
+                $coupon = CouponCode::where('code', $couponCode)->first();
+                // 总金额已经计算出来了，检查是否符合优惠券规则
+                $coupon->checkAvailable($totalAmount);
+                // 增加优惠券的用量，需判断返回值
+                if ($coupon->changeUsed() <= 0) {
+                    throw new CouponCodeUnavailableException('该优惠券已被兑完');
                 }
+                // 把订单金额修改为优惠后的金额
+                $totalAmount = $coupon->getAdjustedPrice($totalAmount);
+                $couponCodeId = $coupon->id;
             }
 
             // 更新订单总金额
-            $order->update(['total_amount' => $totalAmount]);
+            $order->update([
+                'total_amount' => $totalAmount,
+                'coupon_code_id' => $couponCodeId
+            ]);
 
             // 将下单的商品从购物车中移除
             $skuIds = collect($data['items'])->pluck('sku_id')->all();
