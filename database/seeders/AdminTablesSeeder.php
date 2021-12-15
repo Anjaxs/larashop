@@ -161,6 +161,24 @@ class AdminTablesSeeder extends Seeder
                     "http_path" => "/admin/horizon*",
                     "name" => "队列任务",
                     "slug" => "horizon"
+                ],
+                [
+                    "http_method" => "",
+                    "http_path" => "/products*",
+                    "name" => "商品管理",
+                    "slug" => "products"
+                ],
+                [
+                    "http_method" => "",
+                    "http_path" => "/coupon_codes*",
+                    "name" => "优惠券管理",
+                    "slug" => "coupon_codes"
+                ],
+                [
+                    "http_method" => "",
+                    "http_path" => "/orders*",
+                    "name" => "订单管理",
+                    "slug" => "orders"
                 ]
             ]
         );
@@ -174,7 +192,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "name" => "运营",
-                    "slug" => "operation"
+                    "slug" => "operator"
                 ]
             ]
         );
@@ -215,6 +233,18 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "permission_id" => 6,
+                    "role_id" => 2
+                ],
+                [
+                    "permission_id" => 8,
+                    "role_id" => 2
+                ],
+                [
+                    "permission_id" => 9,
+                    "role_id" => 2
+                ],
+                [
+                    "permission_id" => 10,
                     "role_id" => 2
                 ]
             ]
