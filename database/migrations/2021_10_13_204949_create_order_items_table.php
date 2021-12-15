@@ -24,7 +24,7 @@ class CreateOrderItemsTable extends Migration
             $table->unsignedInteger('amount')->comment('购买数量');
             $table->decimal('price', 10, 2)->comment('购买单价');
             $table->unsignedTinyInteger('rating')->default(0)->comment('评分');
-            $table->string('review', 500)->default(0)->comment('评价');
+            $table->string('review', 500)->default('')->comment('评价');
             $table->timestamp('reviewed_at')->default(config('app.null_time'))->comment('评价时间');
         });
     }
