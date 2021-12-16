@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Ramsey\Uuid\Uuid;
 
 class Order extends Model
@@ -128,7 +129,7 @@ class Order extends Model
                 return $no;
             }
         }
-        \Log::warning('find order no failed');
+        Log::warning('find order no failed');
 
         return false;
     }
