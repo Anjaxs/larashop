@@ -34,10 +34,14 @@ class ProductFactory extends Factory
             "https://cdn.learnku.com/uploads/images/201806/01/5320/pa7DrV43Mw.jpg",
         ]);
 
+        // 从数据库中随机取一个类目
+        $category = \App\Models\Product\Category::query()->where('is_directory', false)->inRandomOrder()->first();
+
         return [
             'title'        => $this->faker->word,
             'description'  => $this->faker->sentence,
             'image'        => $image,
+            'category_id'  => $category ? $category->id : 0,
             'on_sale'      => true,
             'rating'       => $this->faker->numberBetween(0, 5),
             'sold_count'   => 0,
