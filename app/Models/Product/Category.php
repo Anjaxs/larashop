@@ -76,4 +76,28 @@ class Category extends Model
             ->push($this->name) // 将当前类目的 name 字段值加到数组的末尾
             ->implode(' - '); // 用 - 符号将数组的值组装成一个字符串
     }
+
+    public static function getCategoryTree($parentId = null, $allCategories = null)
+    {
+        if (is_null($allCategories)) {
+            // 从数据库中一次性取出所有类目
+            $allCategories = self::all();
+        }
+
+        return $allCategories
+            // 从所有类目中挑选出父类目 ID 为 $parentId 的类目
+            ->where('parent_id', $parentId)
+            // 遍历这些类目，并用返回值构建一个新的集合
+            ->map(function (Category $category) use ($allCategories) {
+                $data = ['id' => $category->id, 'name' => $category->name];
+                // 如果当前类目不是父类目，则直接返回
+                if (!$category->is_directory) {
+                    return $data;
+                }
+                // 否则递归调用本方法，将返回值放入 children 字段中
+                $data['children'] = self::getCategoryTree($category->id, $allCategories);
+
+                return $data;
+            });
+    }
 }

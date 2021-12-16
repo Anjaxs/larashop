@@ -33,6 +33,7 @@ class ProductsController extends Controller
         }
 
         // 如果有传入 category_id 字段，并且在数据库中有对应的类目
+        $category = null;
         if ($request->input('category_id') && $category = Category::find($request->input('category_id'))) {
             // 如果这是一个父类目
             if ($category->is_directory) {
