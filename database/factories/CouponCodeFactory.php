@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Promotion;
+namespace Database\Factories;
 
 use App\Models\Promotion\CouponCode;
 use Illuminate\Database\Eloquent\Factories\Factory;

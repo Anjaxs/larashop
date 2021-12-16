@@ -6,7 +6,7 @@ use App\Exceptions\CouponCodeUnavailableException;
 use App\Models\Order\Order;
 use App\Models\User\User;
 use Carbon\Carbon;
-use Database\Factories\Promotion\CouponCodeFactory;
+use Database\Factories\CouponCodeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Encore\Admin\Traits\DefaultDatetimeFormat;

@@ -2,6 +2,7 @@
 
 use Database\Seeders\AddressesSeeder;
 use Database\Seeders\AdminTablesSeeder;
+use Database\Seeders\CategoriesSeeder;
 use Database\Seeders\CouponCodesSeeder;
 use Database\Seeders\OrdersSeeder;
 use Database\Seeders\ProductsSeeder;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminTablesSeeder::class);
         $this->call(UsersSeeder::class);
         $this->call(AddressesSeeder::class);
+        $this->call(CategoriesSeeder::class);
         $this->call(ProductsSeeder::class);
         $this->call(CouponCodesSeeder::class);
         $this->call(OrdersSeeder::class);
