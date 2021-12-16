@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Order;
+namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidRequestException;
 use Illuminate\Http\Request;

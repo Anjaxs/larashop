@@ -32,35 +32,35 @@ Route::group([
 
     /** 用户模块 */
     // 收货地址
-    Route::group(['namespace' => 'User'], function () {
-        Route::get('addresses', 'AddressesController@index')->name('addresses.index');
-        Route::get('addresses/create', 'AddressesController@create')->name('addresses.create');
-        Route::post('addresses', 'AddressesController@store')->name('addresses.store');
-        Route::get('addresses/{address}', 'AddressesController@edit')->name('addresses.edit');
-        Route::put('addresses/{address}', 'AddressesController@update')->name('addresses.update');
-        Route::delete('addresses/{address}', 'AddressesController@destroy')->name('addresses.destroy');
-    });
+    Route::get('addresses', 'AddressesController@index')->name('addresses.index');
+    Route::get('addresses/create', 'AddressesController@create')->name('addresses.create');
+    Route::post('addresses', 'AddressesController@store')->name('addresses.store');
+    Route::get('addresses/{address}', 'AddressesController@edit')->name('addresses.edit');
+    Route::put('addresses/{address}', 'AddressesController@update')->name('addresses.update');
+    Route::delete('addresses/{address}', 'AddressesController@destroy')->name('addresses.destroy');
+
 
     /** 订单模块 */
-    Route::group(['namespace' => 'Order'], function () {
-        Route::get('cart', 'CartController@index')->name('cart.index');
-        Route::post('cart', 'CartController@add')->name('cart.add');
-        Route::delete('cart/{sku}', 'CartController@remove')->name('cart.remove');
+    // 购物车
+    Route::get('cart', 'CartController@index')->name('cart.index');
+    Route::post('cart', 'CartController@add')->name('cart.add');
+    Route::delete('cart/{sku}', 'CartController@remove')->name('cart.remove');
+    // 订单
+    Route::post('orders', 'OrdersController@store')->name('orders.store');
+    Route::get('orders', 'OrdersController@index')->name('orders.index');
+    Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
+    Route::post('orders/{order}/received', 'OrdersController@received')->name('orders.received');
+    Route::get('orders/{order}/review', 'OrdersController@review')->name('orders.review.show');
+    Route::post('orders/{order}/review', 'OrdersController@sendReview')->name('orders.review.store');
+    Route::post('orders/{order}/apply_refund', 'OrdersController@applyRefund')->name('orders.apply_refund');
 
-        Route::post('orders', 'OrdersController@store')->name('orders.store');
-        Route::get('orders', 'OrdersController@index')->name('orders.index');
-        Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
-        Route::post('orders/{order}/received', 'OrdersController@received')->name('orders.received');
-        Route::get('orders/{order}/review', 'OrdersController@review')->name('orders.review.show');
-        Route::post('orders/{order}/review', 'OrdersController@sendReview')->name('orders.review.store');
-        Route::post('orders/{order}/apply_refund', 'OrdersController@applyRefund')->name('orders.apply_refund');
-    });
 
     /** 支付模块 */
     Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
     Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
     Route::get('payment/{order}/wechat', 'PaymentController@payByWechat')->name('payment.wechat');
 
+    /** 营销模块 */
     Route::get('coupon_codes/{code}', 'CouponCodesController@show')->name('coupon_codes.show');
 });
 

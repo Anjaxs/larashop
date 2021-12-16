@@ -19,7 +19,7 @@ class HandleRefund extends BaseService
     }
 
     /**
-     * 支付回调
+     * 处理退款
      */
     public function execute(array $data)
     {

@@ -6,6 +6,8 @@ return [
 
     'ngrok_url' => env('NGROK_URL'),
 
+    'open_sql_log' => env('OPEN_SQL_LOG', false),  // 是否开启SQL日志
+
     'order_ttl' => 3600,  // 延时关闭订单时间
 
     /*

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -44,7 +44,7 @@ class AddressesController extends Controller
     public function update(Address $address, Request $request)
     {
         $this->authorize('own', $address);
-        
+
         $data = ['address_id' => $address->id] + $request->all();
 
         app(UpdateAddress::class)->execute($data);

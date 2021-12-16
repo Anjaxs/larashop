@@ -17,7 +17,7 @@ class ApplyRefund extends BaseService
     }
 
     /**
-     * 支付回调
+     * 申请退款
      */
     public function execute(array $data)
     {
