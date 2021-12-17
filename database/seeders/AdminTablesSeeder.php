@@ -127,7 +127,7 @@ class AdminTablesSeeder extends Seeder
                     "order" => 5,
                     "parent_id" => 9,
                     "permission" => NULL,
-                    "title" => "图片商品",
+                    "title" => "普通商品",
                     "uri" => "/products"
                 ],
                 [
