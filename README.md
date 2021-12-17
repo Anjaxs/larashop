@@ -35,6 +35,12 @@ larashop.conf 文件里面 server_name 改为 laravel.test; root 路径修改为
 
 larashop.conf 文件里面 command 修改为自己项目路径
 
+#### workspace crontab 配置
+
+复制 workspace/crontab 文件夹下的 laradock 文件, 重命名为 larashop
+
+larashop 文件里面 command 修改为自己项目路径
+
 ### 本地支付回调使用的内网穿透
 
 1. 点击链接注册下载 [ngrok](https://dashboard.ngrok.com/user/signup)
