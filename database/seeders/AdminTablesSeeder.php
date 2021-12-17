@@ -28,7 +28,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "icon" => "fa-tasks",
-                    "order" => 7,
+                    "order" => 9,
                     "parent_id" => 0,
                     "permission" => NULL,
                     "title" => "系统管理",
@@ -36,7 +36,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "icon" => "fa-users",
-                    "order" => 8,
+                    "order" => 10,
                     "parent_id" => 2,
                     "permission" => NULL,
                     "title" => "管理员",
@@ -44,7 +44,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "icon" => "fa-user",
-                    "order" => 9,
+                    "order" => 11,
                     "parent_id" => 2,
                     "permission" => NULL,
                     "title" => "角色",
@@ -52,7 +52,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "icon" => "fa-ban",
-                    "order" => 10,
+                    "order" => 12,
                     "parent_id" => 2,
                     "permission" => NULL,
                     "title" => "权限",
@@ -60,7 +60,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "icon" => "fa-bars",
-                    "order" => 11,
+                    "order" => 13,
                     "parent_id" => 2,
                     "permission" => NULL,
                     "title" => "菜单",
@@ -68,7 +68,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "icon" => "fa-history",
-                    "order" => 12,
+                    "order" => 14,
                     "parent_id" => 2,
                     "permission" => NULL,
                     "title" => "操作日志",
@@ -92,7 +92,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "icon" => "fa-server",
-                    "order" => 13,
+                    "order" => 15,
                     "parent_id" => 2,
                     "permission" => "horizon",
                     "title" => "队列任务",
@@ -100,7 +100,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "icon" => "fa-rmb",
-                    "order" => 5,
+                    "order" => 7,
                     "parent_id" => 0,
                     "permission" => NULL,
                     "title" => "订单管理",
@@ -108,7 +108,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "icon" => "fa-tags",
-                    "order" => 6,
+                    "order" => 8,
                     "parent_id" => 0,
                     "permission" => NULL,
                     "title" => "优惠券管理",
@@ -121,6 +121,22 @@ class AdminTablesSeeder extends Seeder
                     "permission" => NULL,
                     "title" => "类目管理",
                     "uri" => "/categories"
+                ],
+                [
+                    "icon" => "fa-cubes",
+                    "order" => 5,
+                    "parent_id" => 9,
+                    "permission" => NULL,
+                    "title" => "图片商品",
+                    "uri" => "/products"
+                ],
+                [
+                    "icon" => "fa-flag-checkered",
+                    "order" => 6,
+                    "parent_id" => 9,
+                    "permission" => NULL,
+                    "title" => "众筹商品",
+                    "uri" => "/crowdfunding_products"
                 ]
             ]
         );

@@ -27,6 +27,7 @@ class ProductsController extends AdminController
     {
         $grid = new Grid(new Product());
 
+        $grid->model()->where('type', Product::TYPE_NORMAL)->with(['category']);
         $grid->id('ID')->sortable();
         $grid->title('商品名称');
         $grid->column('category.name', '类目');

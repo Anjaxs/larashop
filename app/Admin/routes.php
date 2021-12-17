@@ -23,6 +23,12 @@ Route::group([
     $router->get('products/{id}/edit', 'ProductsController@edit');
     $router->put('products/{id}', 'ProductsController@update');
 
+    $router->get('crowdfunding_products', 'CrowdfundingProductsController@index');
+    $router->get('crowdfunding_products/create', 'CrowdfundingProductsController@create');
+    $router->post('crowdfunding_products', 'CrowdfundingProductsController@store');
+    $router->get('crowdfunding_products/{id}/edit', 'CrowdfundingProductsController@edit');
+    $router->put('crowdfunding_products/{id}', 'CrowdfundingProductsController@update');
+
     $router->get('orders', 'OrdersController@index')->name('orders.index');
     $router->get('orders/{order}', 'OrdersController@show')->name('orders.show');
     $router->post('orders/{order}/ship', 'OrdersController@ship')->name('orders.ship');
