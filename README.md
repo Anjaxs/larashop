@@ -39,7 +39,7 @@ larashop.conf 文件里面 command 修改为自己项目路径
 
 复制 workspace/crontab 文件夹下的 laradock 文件, 重命名为 larashop
 
-larashop 文件里面 command 修改为自己项目路径
+larashop 文件里 artisan 执行命令修改为自己项目路径
 
 ### 本地支付回调使用的内网穿透
 
