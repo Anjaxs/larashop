@@ -8,13 +8,17 @@
 
 启动的容器的命令: 
 
-`docker-compose up -d nginx redis mysql laravel-horizon mailhog`
+`docker-compose up -d nginx redis mysql laravel-horizon mailhog elasticsearch`
 
 > 说明: mailhog 用于开发时接收邮件
 
 进入到容器:
 
 `docker-compose exec --user=laradock workspace bash`
+
+安装 IK 分词器安装 (请安装自己laradock elasticsearch 对应的版本)
+
+`docker-compose exec elasticsearch /usr/share/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.1/elasticsearch-analysis-ik-7.5.1.zip`
 
 #### 修改 hosts 文件
 
