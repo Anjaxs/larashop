@@ -93,11 +93,11 @@ class Product extends Model
         // 只取出需要的 SKU 字段
         $arr['skus'] = $this->skus->map(function (ProductSku $sku) {
             return Arr::only($sku->toArray(), ['title', 'description', 'price']);
-        });
+        })->all();
         // 只取出需要的商品属性字段
         $arr['properties'] = $this->properties->map(function (ProductProperty $property) {
             return Arr::only($property->toArray(), ['name', 'value']);
-        });
+        })->all();
 
         return $arr;
     }

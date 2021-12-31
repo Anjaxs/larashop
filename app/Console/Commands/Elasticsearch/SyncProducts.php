@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Console\Commands\Elasticsearch;
 
 use App\Models\Product\Product;
@@ -17,8 +18,10 @@ class SyncProducts extends Command
 
     public function handle()
     {
-        // 获取 Elasticsearch 对象
+        /** @var \Elasticsearch\Client 对象*/
         $es = app('es');
+
+        $this->createProductsIndexIfNotExist($es);
 
         Product::query()
             // 预加载 SKU 和 商品属性数据，避免 N + 1 问题
@@ -50,5 +53,97 @@ class SyncProducts extends Command
                 }
             });
         $this->info('同步完成');
+    }
+
+    /**
+     * 如果不存在 products index 则创建
+     * @param \Elasticsearch\Client $es
+     */
+    protected function createProductsIndexIfNotExist($es)
+    {
+        try {
+            $es->indices()->getMapping(['index' => 'products']);
+        } catch (\Elasticsearch\Common\Exceptions\Missing404Exception $e) {
+            $es->indices()->create([
+                'index' => 'products',
+                'body' => [
+                    'mappings' => [
+                        'properties'  => [
+                            "type" => [
+                                "type" => "keyword"
+                            ],
+                            "title" => [
+                                "type" => "text",
+                                "analyzer" => "ik_smart"
+                            ],
+                            "long_title" => [
+                                "type" => "text",
+                                "analyzer" => "ik_smart"
+                            ],
+                            "category_id" => [
+                                "type" => "integer"
+                            ],
+                            "category" => [
+                                "type" => "keyword"
+                            ],
+                            "category_path" => [
+                                "type" => "keyword"
+                            ],
+                            "description" => [
+                                "type" => "text",
+                                "analyzer" => "ik_smart"
+                            ],
+                            "price" => [
+                                "type" => "scaled_float",
+                                "scaling_factor" => 100
+                            ],
+                            "on_sale" => [
+                                "type" => "boolean"
+                            ],
+                            "rating" => [
+                                "type" => "float"
+                            ],
+                            "sold_count" => [
+                                "type" => "integer"
+                            ],
+                            "review_count" => [
+                                "type" => "integer"
+                            ],
+                            "skus" => [
+                                "type" => "nested",
+                                "properties" => [
+                                    "title" => [
+                                        "type" => "text",
+                                        "analyzer" => "ik_smart",
+                                        "copy_to" => "skus_title"
+                                    ],
+                                    "description" => [
+                                        "type" => "text",
+                                        "analyzer" => "ik_smart",
+                                        "copy_to" => "skus_description"
+                                    ],
+                                    "price" => [
+                                        "type" => "scaled_float",
+                                        "scaling_factor" => 100
+                                    ]
+                                ]
+                            ],
+                            "properties" => [
+                                "type" => "nested",
+                                "properties" => [
+                                    "name" => [
+                                        "type" => "keyword"
+                                    ],
+                                    "value" => [
+                                        "type" => "keyword",
+                                        "copy_to" => "properties_value"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
+        }
     }
 }
