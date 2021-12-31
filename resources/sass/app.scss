@@ -330,6 +330,16 @@ body {
   .product-description img {
     max-width: 100%;
   }
+
+  .similar-products {
+    @include product-list;
+    .title {
+      font-weight: normal;
+    }
+    .price {
+      background-color: unset;
+    }
+  }
 }
 
 // 购物车首页
