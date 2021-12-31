@@ -137,6 +137,9 @@ class SyncProducts extends Command
                                     "value" => [
                                         "type" => "keyword",
                                         "copy_to" => "properties_value"
+                                    ],
+                                    "search_value" => [
+                                        "type" => "keyword",
                                     ]
                                 ]
                             ]
